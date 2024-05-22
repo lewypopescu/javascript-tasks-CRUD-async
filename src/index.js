@@ -95,16 +95,6 @@ async function fetchImagesScroll() {
     page += 1;
     const lightbox = new SimpleLightbox('.gallery a');
     lightbox.refresh();
-
-    let pagesTotal = totalHits / perPage;
-
-    if (page >= pagesTotal) {
-      setTimeout(() => {
-        Notiflix.Notify.info(
-          "We're sorry, but you've reached the end of search results"
-        );
-      }, 1000);
-    }
   } catch (error) {
     console.error(error);
   }
@@ -113,7 +103,13 @@ async function fetchImagesScroll() {
 window.addEventListener('scroll', () => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
-  if (scrollTop + clientHeight >= scrollHeight - 5) {
+  if (scrollTop + clientHeight >= scrollHeight - 200) {
     fetchImagesScroll();
+  }
+
+  if (scrollTop + clientHeight === scrollHeight) {
+    Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results"
+    );
   }
 });
